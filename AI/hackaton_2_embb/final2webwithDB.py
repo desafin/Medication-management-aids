@@ -11,7 +11,28 @@ from queue import Queue
 import time
 
 
+import pymysql
 
+# MySQL 서버에 연결합니다.
+connection = pymysql.connect(
+    host='localhost',  # 호스트 주소
+    user='root',   # 사용자 이름
+    password='0000',  # 비밀번호
+    db='pill'  # 데이터베이스 이름
+)
+
+with connection.cursor() as cursor:
+    # SQL 쿼리를 작성합니다.
+    sql = "SELECT pill_name FROM pill WHERE pill_name = 'lopmin'"
+
+    # 쿼리를 실행합니다.
+    cursor.execute(sql)
+
+    # 결과를 가져옵니다.
+    result = cursor.fetchall()
+
+    # 결과 출력
+    print(result)
 
 # 큐 생성
 frame_queue = Queue()
@@ -35,6 +56,8 @@ def generate_frames():
                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
         #과부하시 딜레이넣을것
         #time.sleep(1)
+
+
 
 
 
@@ -74,6 +97,30 @@ server_thread.start()
 
 def start_stream():
     app.run(debug=False)
+
+
+
+
+
+
+# 함수: 중복된 코드 부분을 함수로 추상화
+def process_duplicate_pill(connection, pill_name):
+    with connection.cursor() as cursor:
+        # SQL 쿼리를 작성합니다.
+        sql = "SELECT pill_element FROM pill WHERE pill_name = %s"
+
+        # 쿼리를 실행합니다.
+        cursor.execute(sql, (pill_name,))
+
+        # 결과를 가져옵니다.
+        pill_element = cursor.fetchall()
+
+        # 결과 출력
+        global send_text
+        send_text= (
+            str(pill_name) + " 중복이 있습니다. 확인해주세요. " + "성분은 " + str(pill_element) + "입니다"
+        )
+        print(send_text)
 
 
 # 이미지 전처리를 위한 변환 정의
@@ -123,7 +170,7 @@ while True:
 
 
     # 밝기 조절 (예: 1.5배 밝게)
-    brightness_factor = 0.7
+    brightness_factor = 1
     brightened_frame = cv2.convertScaleAbs(frame, alpha=brightness_factor, beta=0)
 
     # 프레임을 화면에 보여주기
@@ -151,14 +198,24 @@ while True:
     detected_classes = []
 
 
+
     count = 0
     for idx, contour in enumerate(contours):
         contour_area = cv2.contourArea(contour)
-        if 1000 < contour_area < 10000:
+        if 5000 < contour_area < 30000:
             x, y, w, h = cv2.boundingRect(contour)
-            cv2.rectangle(contour_frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
-            roi = frame[y:y + h, x:x + w]
-            roi_images.append(roi)  # 이미지를 리스트에 추가
+
+            # 보정된 좌표 계산
+            x1 = max(x - 5, 0)
+            y1 = max(y - 5, 0)
+            x2 = min(x + w + 5, frame.shape[1])  # 프레임의 너비를 초과하지 않도록
+            y2 = min(y + h + 5, frame.shape[0])  # 프레임의 높이를 초과하지 않도록
+
+            cv2.rectangle(contour_frame, (x1, y1), (x2, y2), (0, 255, 0), 2)
+
+            # ROI 잘라내기
+            roi = frame[y1:y2, x1:x2]
+            roi_images.append(roi)
 
             # 바운딩 박스 근처에 인덱스 번호 출력
             cv2.putText(contour_frame, str(count), (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
@@ -231,23 +288,15 @@ while True:
     print(f'Predicted penzar_er: {penzar_erCount}')
     print(detected_classes)
 
-
-    if lopminCount>1:
-        print("로프민 중복이 있습니다 확인해주세요")
-        send_text ="로프민 중복이 있습니다 확인해주세요 성분:로페라미드 염산염 급성설사에 효과가있습니다"
-
-
-    elif nephinCount>1:
-        print("네프신 중복이 있습니다 확인해주세요")
-        send_text = "네프신 중복이 있습니다 확인해주세요 성분:생약성분  방광염 요도염등에 효과가있습니다"
-
-    elif penzar_erCount>1:
-        print("펜잘 중복이 있습니다 확인해주세요 성분:아세트 아미노펜 해열 감기에인한 통증에 효과가있습니다")
-        send_text = "펜잘 중복이 있습니다 확인해주세요 성분:아세트 아미노펜 해열 감기에인한 통증에 효과가있습니다"
-
+    if lopminCount > 1:
+        process_duplicate_pill(connection, 'lopmin')
+    elif nephinCount > 1:
+        process_duplicate_pill(connection, 'nephin')
+    elif penzar_erCount > 1:
+        process_duplicate_pill(connection, 'penzar_er')
     else:
-        print("문제가없습니다 복약하시면됩니다")
-        send_text="문제가없습니다 복약하시면됩니다"
+        send_text="문제가 없습니다. 복약하시면 됩니다."
+        print(send_text)
 
 
     # 'q' 키를 누르면 루프 종료
@@ -257,3 +306,4 @@ while True:
 # 웹캠 해제 및 창 닫기
 cap.release()
 cv2.destroyAllWindows()
+connection.close()
