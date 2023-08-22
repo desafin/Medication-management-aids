@@ -25,8 +25,8 @@ http://www.health.kr/searchDrug/result_drug.asp?drug_cd=A11A1660A0057
 https://www.health.kr/searchDrug/result_drug.asp?drug_cd=2014121100005
 
 - 펜잘8시간이알서방정 
-- https://www.health.kr/searchDrug/result_drug.asp?drug_cd=2013103000013
+https://www.health.kr/searchDrug/result_drug.asp?drug_cd=2013103000013
 
 ## 데이터셋 출처
 - https://aihub.or.kr/aihubdata/data/view.do?dataSetSn=576
-- 경구약제 이미지데이터
+경구약제 이미지데이터

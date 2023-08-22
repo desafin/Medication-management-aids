@@ -1,23 +1,18 @@
 # 팀_나지금필받았어
-약 먹는 어르신들을 위한 AI 복약 관리사
+![image](https://github.com/JongChanHa/Medication-management-aids/assets/136680397/cf70d888-d2e7-4350-aa12-1fdc4fdfd905)
 
 
 # 문제점정의
-최근 통계로 알아보는 노인층의 복약관리 동향
 
-# 복약 불순응
-•55%가 임의 조절하여 약을 복용하지 않음
+## 최근 통계로 알아보는 노인층의 복약관리 동향
+![image](https://github.com/JongChanHa/Medication-management-aids/assets/136680397/c5c8fc7a-ca64-4e51-b38f-c38a1c956526)
 
-•복약치료 효과를 제대로 볼 수 없음
+## 사용자 분석 – 우리 주변의 노인들
+![image](https://github.com/JongChanHa/Medication-management-aids/assets/136680397/ac5c73f5-c047-4b15-b08e-f85b58845017)
 
-•노인은 노화로 인해 대사력이 감소하여 부작용 발생 가능성 높음
-# 다제약물 복용
-•전체 인구 중 2%, 노인 인구중  10%가 다제약물을 복용 중
 
-•한국은 다제병용  처방률  68.1%로 OECD 1위
-
-•전 세계 연간 200만건의 약물 유해반응이 발생, 10만명이 사망
-
+## 사용자 분석 – 전문가 인터뷰
+![image](https://github.com/JongChanHa/Medication-management-aids/assets/136680397/3266eb12-30df-4433-bb73-3283747cb8e0)
 
 # 유즈케이스 시나리오
 
@@ -33,20 +28,15 @@
 
 실수로 중복약제를 먹는 것을 예방해준다
 
-## 역할분담
-
-하종찬:기획 및 3D모델링
-한재욱:하드웨어 개발,하드웨어 설계
-엄기천:하드웨어 개발,소프트웨어 개발
-문상원:소프트웨어,AI개발
-
 ## High level design​
 ![image](https://github.com/JongChanHa/Medication-management-aids/assets/136680397/78287c34-03d9-4239-a9bd-d337625b8b71)
 
 ## Work breakdown sheet​
 ![image](https://github.com/JongChanHa/Medication-management-aids/assets/136680397/69a9e2e1-21ca-48ba-9dc9-4a00f7c206ff)
 									
-																	
+## 동작구조도
+![image](https://github.com/JongChanHa/Medication-management-aids/assets/136680397/fb887252-8605-422d-a8bf-374b14595d5b)
+		 
 ## 역할 분담
 팀장 하종찬(기획/프로젝트 매니저)
 
@@ -58,8 +48,19 @@
 
 
 ## 그 외 기타 사항 - SW dependency, 동작 환경, 제한 사항 등을 기술
-SW dependency - 
 
-동작환경 - 라즈베리파이4 보드
+## 핵심 기술
+![image](https://github.com/JongChanHa/Medication-management-aids/assets/136680397/46f456d8-8e78-4ed9-995e-cde3d947d234)
 
-제한사항 - 학습된 알약 이미지에 한해서 검출 가능
+## 시연 영상, 제작영상 URL
+• 제작영상 : https://www.youtube.com/watch?v=2JGMzi57F4s&t=31s
+
+• 시연영상 : https://www.youtube.com/shorts/7cosngZtbhQ
+
+## 보조기기 열린플랫폼 URL
+• http://www.nrc.go.kr/at_rd/web/lay2/program/S1T88C89/openPlatform/deviceInfo/view.do?open_platform_seq=467&start_dt=&end_dt=&keyword=&category1=&category2=&category3=&rows=6&cpage=2&order_type=OPEN_PLATFORM_SEQ
+
+## 공모전 시연 현장 사진
+![image](https://github.com/JongChanHa/Medication-management-aids/assets/136680397/c25a5176-b20b-48b7-a3e2-24c1b551b708)
+
+
